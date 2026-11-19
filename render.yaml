@@ -1,0 +1,23 @@
+# Render Blueprint — deploy Kampung Amanah Game (frontend + WebSocket server) in one click.
+# Cara pakai: push repo ini ke GitHub, lalu di Render pilih "New +" > "Blueprint" dan pilih repo ini.
+# Render akan membuat Web Service sesuai definisi di bawah.
+services:
+  - type: web
+    name: kampung-amanah-game
+    env: node
+    plan: free
+    buildCommand: npm install --legacy-peer-deps && npm run build
+    startCommand: NODE_ENV=production npx tsx server.ts
+    healthCheckPath: /api/game/summary
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: KAMPUNG_IG_USERNAME
+        value: kampung.amanah
+      - key: KAMPUNG_IG_FOLLOWERS
+        value: "257"
+      - key: IG_USER_ID
+        value: "17841466043015308"
+      # IG_ACCESS_TOKEN dikosongkan — isi nanti kalau sudah punya token Instagram Graph API.
+      - key: IG_ACCESS_TOKEN
+        value: ""
